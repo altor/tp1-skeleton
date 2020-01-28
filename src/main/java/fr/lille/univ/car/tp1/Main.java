@@ -1,22 +1,31 @@
 package fr.lille.univ.car.tp1;
 
-class State{
+import java.util.Map;
 
+enum State{
+	IDLE, WAIT_PASS, LOG_IN;
 }
 
 class Answer{
-	public String requestAnswer;
-	public State state;
+	public int status;
 
-	public Answer(String requestAnswer, State state) {
-		this.requestAnswer = requestAnswer;
-		this.state = state;
+	public Answer(int status) {
+		this.status = status;
 	}
 }
 
 class CommandProcessor{
-
+	
+	private Map<String, Command> commands;
+	public CommandProcessor() {
+		commands = new HashMap<>();
+		commands.put("USER", new UserCommand());
+		
+	}
+	
+	
 	public Answer process(String request, State state) {
-		return null;
+		String[] parsed = request.split(" ");
+		commands.get(parsed[0]).process(parsed[1], state);
 	}
 }
